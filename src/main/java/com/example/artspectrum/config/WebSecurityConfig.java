@@ -22,17 +22,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-	
 	private final JwtFilter jwtFilter;
-	
 	private static final String[] PUBLIC_ENDPOINTS = {
 			"/api/v1/artspectrum/sign-up",
-			"/api/v1/artspectrum/sign-in",
 			"/api/v1/artspectrum/auth/login",
 			"/api/v1/artspectrum/auth/token",
 			
 			"/api/v1/artspectrum/artists/**",
-
+			"/api/v1/artspectrum/users/**",
+			
 			"/v3/api-docs/**",
 			"/swagger-ui/**",
 			"/swagger-ui.html"

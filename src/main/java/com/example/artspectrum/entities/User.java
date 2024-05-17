@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
@@ -46,78 +47,62 @@ public class User {
 	@SequenceGenerator(name = "user_seq_generator", sequenceName = "tuser_id_seq", allocationSize = 1)
 	@Column(name = "id")
 	private Long id;
-	
 	@NotBlank
 	@Email
 	@Size(min = 2, max = 50)
 	@Column(name = "login", nullable = false, unique = true)
 	private String login;
-	
 	@Size(min = 6)
 	@NotBlank
 	@Column(name = "password", nullable = false)
 	private String password;
-	
 	@NotBlank
 	@Size(min = 2, max = 50)
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	
 	@NotBlank
 	@Size(min = 2, max = 50)
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	
 	@Size(max = 255)
 	@Column(name = "user_avatar")
 	private String userAvatar;
-	
 	@Column(name = "removed")
 	private LocalDateTime removed;
-	
 	@Column(name = "blocked", columnDefinition = "boolean default false")
 	private boolean blocked;
-	
 	@Past
 	@Column(name = "date_birth")
 	private LocalDate dateBirth;
-	
 	@Column(name = "gender")
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
-	
 	@NotNull
 	@Column(name = "registered", nullable = false)
 	private LocalDateTime registered;
-	
 	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
 	@Enumerated(EnumType.STRING)
 	private Set<Role> roles;
-	
 	@Size(min = 2, max = 255)
 	@Column(name = "info")
 	private String info;
-	
 	@Size(min = 2, max = 50)
 	@Column(name = "country")
 	private String country;
-	
 	@Size(min = 2, max = 50)
 	@Column(name = "city")
 	private String city;
-	
 	@Column(name = "total_rating")
 	@DecimalMin(value = "0.0")
 	@DecimalMax(value = "5.0")
 	private double totalRating;
-	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Artwork> artworks;
-	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders = new ArrayList<>();
-	
+	@OneToOne(mappedBy = "user")
+	private Cart cart;
 	@JsonIgnore
 	public void setPassword(String password) {
 		this.password = password;

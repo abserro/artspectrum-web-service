@@ -13,5 +13,4 @@ public interface IAdminService<T, D> {
 	T update(Long id, D dto);
 	boolean delete(Long id);
 	void deleteAll();
-	
 }

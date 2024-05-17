@@ -49,7 +49,7 @@ public class ArtAttribute {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
-		@Column(name = "techique_name")
+		@Column(name = "technique_name")
 		private String name;
 	}
 }

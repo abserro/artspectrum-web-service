@@ -24,7 +24,7 @@ public class CartItem {
 	
 	@ManyToOne
 	@JoinColumn(name = "artwork_id", nullable = false)
-	private Artwork painting;
+	private Artwork artwork;
 	
 	@Column(name = "quantity", columnDefinition = "int default 1")
 	private int quantity;

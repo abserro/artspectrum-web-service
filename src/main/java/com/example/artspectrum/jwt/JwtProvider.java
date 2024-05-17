@@ -24,7 +24,6 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtProvider {
-	
 	private final SecretKey jwtAccessSecret;
 	private final SecretKey jwtRefreshSecret;
 	

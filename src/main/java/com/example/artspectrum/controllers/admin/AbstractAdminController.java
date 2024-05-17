@@ -1,13 +1,16 @@
 package com.example.artspectrum.controllers.admin;
 
 import com.example.artspectrum.services.admin.IAdminService;
+import com.example.artspectrum.utils.OrderFilterCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/api/v1/artspectrum/admin")
-public abstract class AbstractAdminController<T, D> {
+public abstract class AbstractAdminController<T, D, F> {
 	protected final IAdminService<T, D> adminService;
 	
 	public AbstractAdminController(IAdminService<T, D> adminService) {
@@ -24,13 +27,8 @@ public abstract class AbstractAdminController<T, D> {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<Page<T>> getAll(@RequestParam(required = false) Specification<T> specification,
-	                                      @RequestParam(defaultValue = "0") int page,
-	                                      @RequestParam(defaultValue = "10") int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		Page<T> entities = adminService.getAll(specification, pageable);
-		return ResponseEntity.ok(entities);
-	}
+	public abstract ResponseEntity<Page<T>> getAll(@PageableDefault(size = 10) Pageable pageable,
+	                                      @ModelAttribute F filterCriteria);
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<T> getById(@PathVariable Long id) {
